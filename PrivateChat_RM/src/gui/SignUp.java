@@ -1,5 +1,9 @@
 package gui;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,8 +27,11 @@ public class SignUp extends Stage {
 	private Button btnSubmit;
 	private Label lblPassworMatch;
 	private Label lblUsernameTaken;
+	private LogIn login;
 	
-	public SignUp() {
+	public SignUp(LogIn login) {
+		
+		this.login = login;
 		
 		this.setHeight(370);
 		this.setWidth(340);
@@ -55,8 +62,23 @@ public class SignUp extends Stage {
 		root.setAlignment(Pos.CENTER);
 		
 		btnSubmit.setOnAction(e -> {
-			if (!tfPassword.getText().equals(tfPasswordConfirm)){
+			
+			if (!(tfPassword.getText().equals(tfPasswordConfirm.getText()))){
 				lblPassworMatch.setText("Passwords don't match!");
+			}
+			else 
+				lblPassworMatch.setText("");
+				
+			if (login.getUsernames().contains(tfUsername.getText())){ // ako je zauzeto korisnicko ime, ostavljam za kasnije
+				lblUsernameTaken.setText("Username is already taken :(");
+			}
+			try {
+				PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("baza.txt", true)));
+				writer.println(tfUsername.getText() + "," + tfPassword.getText());
+				writer.close();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 				
 		});
