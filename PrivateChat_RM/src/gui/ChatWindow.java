@@ -30,7 +30,6 @@ public class ChatWindow extends Stage{
 				taChatMessage.setStyle("-fx-text-fill: #1e88e5; -fx-font-size: 18px;");
 			}
 			tfMessage.clear();
-			taChatMessage.appendText("dsadsaa");
 		});
 		
 		
