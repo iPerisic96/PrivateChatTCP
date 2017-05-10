@@ -56,6 +56,7 @@ public class LogIn extends Stage {
 		gridPane.setPadding(new Insets(10));
 		
 		btnLogIn = new Button("Log In");
+		btnLogIn.setDefaultButton(true);
 		btnSignUp = new Button("Sign Up");
 		
 		HBox btnBox = new HBox(8);
@@ -79,7 +80,10 @@ public class LogIn extends Stage {
 		gridPane.add(messageBox, 0, 2, 2, 1);
 		gridPane.add(btnBox, 1, 3);
 		
-		btnSignUp.setOnAction(e -> new SignUp(this));
+		btnSignUp.setOnAction(e -> {
+			new SignUp(this);
+			this.close();
+		});
 		
 		btnLogIn.setOnAction(e -> {
 			if (tfUsername.getText().equals("") && pfPassword.getText().equals("")){
@@ -94,6 +98,11 @@ public class LogIn extends Stage {
 		
 			else 
 				lblMessage.setText("");
+			
+
+			 if (!usernames.contains(tfUsername)){
+				lblMessage.setText("That user isn't registrated yet!");
+			}
 			
 			System.out.println(usernames);
 			

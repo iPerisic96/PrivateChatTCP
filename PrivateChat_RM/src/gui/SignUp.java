@@ -28,6 +28,8 @@ public class SignUp extends Stage {
 	private Label lblPassworMatch;
 	private Label lblUsernameTaken;
 	private LogIn login;
+	private boolean nameTaken = false;
+	private boolean passMatch = false;
 	
 	public SignUp(LogIn login) {
 		
@@ -65,13 +67,23 @@ public class SignUp extends Stage {
 			
 			if (!(tfPassword.getText().equals(tfPasswordConfirm.getText()))){
 				lblPassworMatch.setText("Passwords don't match!");
+				passMatch = false;
 			}
-			else 
+			else {
 				lblPassworMatch.setText("");
-				
-			if (login.getUsernames().contains(tfUsername.getText())){ // ako je zauzeto korisnicko ime, ostavljam za kasnije
-				lblUsernameTaken.setText("Username is already taken :(");
+				passMatch = true;
 			}
+				
+			if (login.getUsernames().contains(tfUsername.getText())){
+				lblUsernameTaken.setText("Username is already taken :(");
+				nameTaken = true;
+			}
+			else {
+				nameTaken = false;
+				lblUsername.setText("Love that username <3");
+			}
+			
+			if (!(tfUsername.getText().equals("")) && !(tfPassword.getText().equals("")) && (nameTaken == false) && (passMatch == true)){
 			try {
 				PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("baza.txt", true)));
 				writer.println(tfUsername.getText() + "," + tfPassword.getText());
@@ -80,7 +92,9 @@ public class SignUp extends Stage {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-				
+			new LogIn();
+			this.close();
+			}
 		});
 		
 		Scene scene = new Scene(root);
@@ -145,6 +159,29 @@ public class SignUp extends Stage {
 	public void setTfPassword(PasswordField tfPassword) {
 		this.tfPassword = tfPassword;
 	}
-	
+
+	public Label getLblPassworMatch() {
+		return lblPassworMatch;
+	}
+
+	public void setLblPassworMatch(Label lblPassworMatch) {
+		this.lblPassworMatch = lblPassworMatch;
+	}
+
+	public Label getLblUsernameTaken() {
+		return lblUsernameTaken;
+	}
+
+	public void setLblUsernameTaken(Label lblUsernameTaken) {
+		this.lblUsernameTaken = lblUsernameTaken;
+	}
+
+	public LogIn getLogin() {
+		return login;
+	}
+
+	public void setLogin(LogIn login) {
+		this.login = login;
+	}
 	
 }
